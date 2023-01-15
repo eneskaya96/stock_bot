@@ -89,7 +89,6 @@ class FileAndParseService:
     def read_balance(self) -> float:
         f = open(self.balance_filename, "r")
         balance = f.read()
-        print(balance)
         return float(balance)
 
     def update_balance(self, balance: float):

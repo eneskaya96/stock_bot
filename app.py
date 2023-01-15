@@ -1,6 +1,20 @@
 from time import sleep
-
+from datetime import datetime
 from finance_decision_service.handle_stocks import HandleStockService
+
+
+def is_market_off():
+
+    # if market is not open
+    if datetime.today().weekday() > 5:
+        print("OUTSIDE WEEKDAY")
+        return True
+
+    now = datetime.now()
+    if now.hour > 18 or now.hour < 10:
+        print("SLEEPING")
+        return True
+
 
 def run_finance_app():
     handle_stock_service = HandleStockService()
@@ -9,6 +23,12 @@ def run_finance_app():
     # infinite loop
     while 1:
         print("-----start----")
+
+        if is_market_off():
+            print("SLEEPING")
+            sleep(60 * 5)
+            continue
+
         try:
             handle_stock_service.handle_already_bought_stocks()
         except Exception as e:

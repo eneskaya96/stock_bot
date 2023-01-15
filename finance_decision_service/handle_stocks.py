@@ -31,7 +31,7 @@ class HandleStockService:
             if final_decision:
                 print(f"SELL {stocks} because You bought {bought_price}, current price is {current_price}")
                 print(f"There is a {percent}% increase")
-                is_sold = self.bank_service.sell_stock(stocks)
+                is_sold = self.bank_service.sell_stock(stocks, current_price)
                 print(f"SOLD: {is_sold}")
 
             else:

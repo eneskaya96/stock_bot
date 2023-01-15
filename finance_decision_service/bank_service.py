@@ -10,6 +10,7 @@ class BankService:
 
     def read_balance(self):
         self.balance = self.file_and_parse_service.read_balance()
+        print(f"Balance is {self.balance}")
 
     def send_sell_request(self, symbol) -> bool:
         self.file_and_parse_service.adding_line_to_buy_or_sell_requests_file(request_type="SELL", symbol=symbol)
@@ -27,13 +28,18 @@ class BankService:
             self.file_and_parse_service.update_balance(self.balance)
             return True
 
-    def sell_stock(self, symbol: str) -> bool:
+    def sell_stock(self, symbol: str, price: float) -> bool:
+
         print(f"Try to sell {symbol} started")
         is_sold = self.send_sell_request(symbol)
         if is_sold:
             # remove from bought.txt
             try:
                 self.file_and_parse_service.delete_line_from_file(symbol)
+
+                # update balance
+                self.balance = self.balance + price
+                self.file_and_parse_service.update_balance(self.balance)
             except Exception as e:
                 print(f"Error at delete_line_from_file ")
         return is_sold
@@ -44,8 +50,6 @@ class BankService:
         if not is_balance_enough:
             print(f"Balance is not enough balance : {self.balance}, price : {price}")
             return False
-
-
 
         print(f"Try to buy {symbol} started")
         is_bought = self.send_buy_request(symbol)
