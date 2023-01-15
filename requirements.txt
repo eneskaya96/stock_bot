@@ -9,3 +9,6 @@ pynput~=1.7.6
 pandas~=1.5.2
 selenium~=4.7.2
 pywhatkit~=5.4
+Pillow==9.4.0
+opencv-python==4.7.0.68
+

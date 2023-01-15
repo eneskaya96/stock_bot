@@ -41,34 +41,51 @@ class LoginService:
     def go_and_click_approve_button(self):
         self.robot.move_to_image('images/approve.png')
 
+    def get_login_or_not(self) -> bool:
+        return self.robot.find_image_path_tab('images/yatırımlar.png', 'images/yatırımlar_2.png')
+
+    def is_at_investment_page(self) -> bool:
+        return self.robot.find_image_path_tab('images/balance.png', 'images/empty_click.png')
+
+    def goto_investments(self) -> bool:
+        try:
+            self.go_and_click_investment()
+            sleep(2)
+
+            self.go_and_click_buy_or_sell_request_follow()
+            sleep(2)
+            return True
+        except Exception as e:
+            return False
+
     def login_bank_account(self):
         sleep(2)
         self.go_and_click_lock()
 
-        sleep(1)
+        sleep(2)
         self.go_and_click_account()
 
-        sleep(1)
+        sleep(5)
         self.robot.write_text(self.tc)
 
-        sleep(1)
+        sleep(2)
         self.robot.press_tab()
 
-        sleep(1)
+        sleep(2)
         self.robot.write_text(self.password)
 
-        sleep(1)
+        sleep(2)
         self.robot.press_enter()
 
-    def enter_buy_request(self, symbol: str, count: int):
+    def enter_buy_or_sell_request(self, symbol: str, count: int, is_sell: bool):
         self.go_and_click_investment()
-        sleep(1)
+        sleep(2)
 
         self.go_and_click_buy_or_sell_request_follow()
-        sleep(1)
+        sleep(2)
 
         self.go_and_click_empty_click()
-        sleep(1)
+        sleep(2)
 
         # choose symbol
         self.robot.press_tab()
@@ -94,7 +111,10 @@ class LoginService:
         self.robot.press_tab(2)
         sleep(2)
 
-        self.robot.press_down(2)
+        if is_sell:
+            self.robot.press_down(3)
+        else:
+            self.robot.press_down(2)
         sleep(2)
 
         self.robot.press_enter(2)

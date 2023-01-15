@@ -15,12 +15,23 @@ class RobotService:
         pt.click()
 
     def move_to_image(self, image_path: str, second_image_path: str = ""):
-        button_location = pt.locateCenterOnScreen(image_path, grayscale=False)
+        button_location = pt.locateCenterOnScreen(image_path, grayscale=False, confidence=0.8)
         if button_location:
             self.move_mouse(button_location.x / 2, button_location.y / 2)
         else:
             button_location = pt.locateCenterOnScreen(second_image_path, grayscale=False)
             self.move_mouse(button_location.x / 2, button_location.y / 2)
+
+    def find_image_path_tab(self, image_path: str, second_image_path: str = "") -> bool:
+        button_location = pt.locateCenterOnScreen(image_path, grayscale=False, confidence=0.8)
+        if button_location:
+            return True
+        else:
+            button_location = pt.locateCenterOnScreen(second_image_path, grayscale=False)
+            if button_location:
+                return True
+
+        return False
 
     def write_text(self, text: str):
         pt.write(text)
