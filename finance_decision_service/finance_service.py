@@ -3,20 +3,6 @@ import pandas as pd
 
 import yfinance as yf
 
-"""
-my_ticker = yf.Ticker("ASELS.IS")
-
-print(
-    my_ticker.info
-)
-
-hist = my_ticker.recommendations_summary
-print(hist)
-
-print("----")
-"""
-
-
 def get_symbol_data(symbols: List[str], period: str, interval: str) -> pd.DataFrame:
     data = yf.download(  # or pdr.get_data_yahoo(...
         # tickers list or string as well

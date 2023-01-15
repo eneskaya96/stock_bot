@@ -1,7 +1,7 @@
 from typing import List, Dict
 
-bought_stocks_filename = 'bought_stocks.txt'
-follow_stocks_filename = 'follow_stocks.txt'
+bought_stocks_filename = '../bought_stocks.txt'
+follow_stocks_filename = '../follow_stocks.txt'
 
 
 def read_lines(filenames: str) -> List[str]:

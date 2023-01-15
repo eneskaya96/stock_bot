@@ -1,8 +1,4 @@
-from bank_service import buy_stock
-from decision_service import decide_sell_or_not, decide_buy_or_not
-from file_and_parse_service import read_bought_stock_tickers, delete_line_from_file, get_follow_symbols, \
-    get_buy_able_stock_symbols
-from finance_service import get_current_data, get_last_3_day_average
+from finance_decision_service.file_and_parse_service import get_buy_able_stock_symbols
 
 """
 bought_prices = read_bought_stock_tickers()

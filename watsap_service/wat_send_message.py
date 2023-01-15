@@ -2,7 +2,7 @@ from time import sleep
 
 import pywhatkit
 
-tel_aslı = ""
+tel_asli = ""
 tel_enes = "-"
 pywhatkit.sendwhatmsg_instantly(
     phone_no=tel_enes,
