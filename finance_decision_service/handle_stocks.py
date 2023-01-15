@@ -56,7 +56,7 @@ class HandleStockService:
                 print(
                     f"BUY {stocks} because it's 3 day average price {average_price}, current price is {current_price}")
                 print(f"There is a {percent}% decrease")
-                is_bought = self.bank_service.buy_stock(stocks)
+                is_bought = self.bank_service.buy_stock(stocks, price=current_price)
                 print(f"BOUGHT: {is_bought}")
 
             else:

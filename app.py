@@ -2,9 +2,6 @@ from time import sleep
 
 from finance_decision_service.handle_stocks import HandleStockService
 
-print("Getting stock data is started ")
-
-
 def run_finance_app():
     handle_stock_service = HandleStockService()
 
@@ -25,3 +22,7 @@ def run_finance_app():
         run_count += 1
         print(f"-----end----{run_count}")
         sleep(600)  # 10 minutes
+
+
+print("Getting stock data is started ")
+run_finance_app()

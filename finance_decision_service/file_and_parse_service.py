@@ -1,11 +1,13 @@
-from typing import List, Dict
+from typing import List, Dict, Tuple
+from datetime import datetime
 
 
 class FileAndParseService:
 
     def __init__(self):
-        self.bought_stocks_filename = '../bought_stocks.txt'
-        self.follow_stocks_filename = '../follow_stocks.txt'
+        self.bought_stocks_filename = 'bought_stocks.txt'
+        self.follow_stocks_filename = 'follow_stocks.txt'
+        self.buy_or_sell_requests = '../buy_or_sell_requests.txt'
 
     def read_lines(self, filenames: str) -> List[str]:
         bought_stocks_symbols = []
@@ -25,6 +27,22 @@ class FileAndParseService:
 
         return symbol_price_pair
 
+    def get_requests(self) -> List:
+        requests = []
+        lines = self.read_lines(self.buy_or_sell_requests)
+
+        # clean file
+        with open(self.buy_or_sell_requests, "w") as f:
+            f.write("\n")
+        f.close()
+
+        for l in lines:
+            if len(l) > 1:
+                request_type, symbol, count, date = l.split('|')
+                requests.append([request_type, symbol, count])
+
+        return requests
+
     def delete_line_from_file(self, symbol: str) -> None:
         with open(self.bought_stocks_filename, "r") as f:
             lines = f.readlines()
@@ -34,6 +52,20 @@ class FileAndParseService:
                 _symbol, _ = _line.split('|')
                 if _symbol != symbol:
                     f.write(line)
+        f.close()
+
+    def adding_line_to_bought_file(self, symbol: str, price: float) -> None:
+        line = f"{symbol}|{str(price)}\n"
+        with open(self.bought_stocks_filename, "a") as f:
+            f.write(line)
+        f.close()
+
+    def adding_line_to_buy_or_sell_requests_file(self, request_type: str, symbol: str, count: int = 1) -> None:
+        now = datetime.utcnow()
+        symbol = symbol.split(".")[0]
+        line = f"{request_type}|{symbol}|{str(count)}|{now.strftime('%m/%d/%Y, %H:%M:%S')}\n"
+        with open(self.buy_or_sell_requests, "a") as f:
+            f.write(line)
         f.close()
 
     def get_follow_symbols(self):
