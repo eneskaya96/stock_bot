@@ -1,4 +1,4 @@
-from typing import List, Dict, Tuple
+from typing import List, Dict
 from datetime import datetime
 
 
@@ -7,6 +7,7 @@ class FileAndParseService:
     def __init__(self):
         self.bought_stocks_filename = 'bought_stocks.txt'
         self.follow_stocks_filename = 'follow_stocks.txt'
+        self.balance_filename = 'balance.txt'
         self.buy_or_sell_requests = '../buy_or_sell_requests.txt'
 
     def read_lines(self, filenames: str) -> List[str]:
@@ -84,3 +85,13 @@ class FileAndParseService:
                 buy_able_stocks.append(symbol)
 
         return buy_able_stocks
+
+    def read_balance(self) -> float:
+        f = open(self.balance_filename, "r")
+        balance = f.read()
+        print(balance)
+        return float(balance)
+
+    def update_balance(self, balance: float):
+        f = open(self.balance_filename, "w")
+        f.write(str(balance))
