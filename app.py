@@ -11,7 +11,7 @@ def is_market_off():
         return True
 
     now = datetime.now()
-    if now.hour > 18 or now.hour < 10:
+    if now.hour >= 18 or now.hour < 10:
         print("SLEEPING")
         return True
 
