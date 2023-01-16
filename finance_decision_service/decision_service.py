@@ -21,11 +21,9 @@ class DecisionService:
         diff = average_p - current_p
 
         # more expensive than average
-        if diff <= 0:
-            return False, None
+        percent = diff * 100 / average_p
+        print(f"percent{percent}")
+        if percent > -1:
+            return True, percent
         else:
-            percent = diff * 100 / average_p
-            if percent > 1:
-                return True, percent
-            else:
-                return False, None
+            return False, None

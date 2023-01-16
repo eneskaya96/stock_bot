@@ -1,5 +1,5 @@
 from typing import List, Dict
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class FileAndParseService:
@@ -39,8 +39,12 @@ class FileAndParseService:
 
         for l in lines:
             if len(l) > 1:
-                request_type, symbol, count, date = l.split('|')
-                requests.append([request_type, symbol, count])
+                request_type, symbol, price, count, date_str = l.split('|')
+                _date = datetime.strptime(date_str, '%m/%d/%Y, %H:%M:%S')
+                if _date + timedelta(minutes=20) < datetime.now():
+                    pass
+                else:
+                    requests.append([request_type, symbol, float(price), count])
 
         return requests
 
@@ -56,7 +60,7 @@ class FileAndParseService:
         f.close()
 
     def adding_line_to_bought_file(self, symbol: str, price: float) -> None:
-        line = f"{symbol}|{str(price)}\n"
+        line = f"{symbol}.IS|{str(price)}\n"
         with open(self.bought_stocks_filename, "a") as f:
             f.write(line)
         f.close()
