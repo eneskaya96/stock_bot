@@ -49,20 +49,23 @@ class HandleStockService:
 
         for stocks, average_price in average_prices.items():
             print("---------")
-            current_price = current_prices[stocks]
-            final_decision, percent = self.decision_service.decide_buy_or_not(average_p=average_price, current_p=current_price)
+            try:
+                current_price = current_prices[stocks]
+                final_decision, percent = self.decision_service.decide_buy_or_not(average_p=average_price, current_p=current_price)
 
-            if final_decision:
-                print(
-                    f"BUY {stocks} because it's 3 day average price {average_price}, current price is {current_price}")
-                print(f"There is a {percent}% decrease")
-                is_bought = self.bank_service.buy_stock(stocks, price=current_price)
-                print(f"BOUGHT: {is_bought}")
+                if final_decision:
+                    print(
+                        f"BUY {stocks} because it's 3 day average price {average_price}, current price is {current_price}")
+                    print(f"There is a {percent}% decrease")
+                    is_bought = self.bank_service.buy_stock(stocks, price=current_price)
+                    print(f"BOUGHT: {is_bought}")
 
-            else:
-                print(
-                    f"DO NOT BUY {stocks} because it's 3 day average price {average_price},"
-                    f" current price is {current_price}")
+                else:
+                    print(
+                        f"DO NOT BUY {stocks} because it's 3 day average price {average_price},"
+                        f" current price is {current_price}")
+            except Exception as e:
+                print(f"Exception {e}  fro symbol {stocks}")
 
         print("try_to_buy_new_stock end")
 
