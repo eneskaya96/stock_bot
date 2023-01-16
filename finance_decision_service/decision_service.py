@@ -12,7 +12,7 @@ class DecisionService:
             return False, None
         else:
             percent = diff * 100 / bought_p
-            if percent > 2:
+            if percent > 4:
                 return True, percent
             else:
                 return False, None

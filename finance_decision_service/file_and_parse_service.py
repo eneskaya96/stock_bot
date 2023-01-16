@@ -5,9 +5,9 @@ from datetime import datetime
 class FileAndParseService:
 
     def __init__(self):
-        self.bought_stocks_filename = 'bought_stocks.txt'
+        self.bought_stocks_filename = '../bought_stocks.txt'
         self.follow_stocks_filename = 'follow_stocks.txt'
-        self.balance_filename = 'balance.txt'
+        self.balance_filename = '../balance.txt'
         self.buy_or_sell_requests = '../buy_or_sell_requests.txt'
 
     def read_lines(self, filenames: str) -> List[str]:
@@ -61,10 +61,10 @@ class FileAndParseService:
             f.write(line)
         f.close()
 
-    def adding_line_to_buy_or_sell_requests_file(self, request_type: str, symbol: str, count: int = 1) -> None:
-        now = datetime.utcnow()
+    def adding_line_to_buy_or_sell_requests_file(self, request_type: str, symbol: str, price: float = 0, count: int = 1) -> None:
+        now = datetime.now()
         symbol = symbol.split(".")[0]
-        line = f"{request_type}|{symbol}|{str(count)}|{now.strftime('%m/%d/%Y, %H:%M:%S')}\n"
+        line = f"{request_type}|{symbol}|{str(price)}|{str(count)}|{now.strftime('%m/%d/%Y, %H:%M:%S')}\n"
         with open(self.buy_or_sell_requests, "a") as f:
             f.write(line)
         f.close()
