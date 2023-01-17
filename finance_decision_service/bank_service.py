@@ -27,12 +27,18 @@ class BankService:
         if self.balance - price < 0:
             return False
         else:
+            self.balance = self.balance - price
+            self.file_and_parse_service.update_balance(self.balance)
             return True
 
     def sell_stock(self, symbol: str, price: float) -> bool:
 
         print(f"Try to sell {symbol} started")
         is_sold = self.send_sell_request(symbol, price)
+
+        self.balance = self.file_and_parse_service.read_balance()
+        self.balance = self.balance + price
+        self.file_and_parse_service.update_balance(self.balance)
 
         return is_sold
 
