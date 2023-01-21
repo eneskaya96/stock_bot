@@ -6,7 +6,7 @@ from finance_decision_service.handle_stocks import HandleStockService
 def is_market_off():
 
     # if market is not open
-    if datetime.today().weekday() > 5:
+    if datetime.today().weekday() >= 5:
         print("OUTSIDE WEEKDAY")
         return True
 

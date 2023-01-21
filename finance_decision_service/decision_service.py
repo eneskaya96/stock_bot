@@ -12,7 +12,7 @@ class DecisionService:
             return False, None
         else:
             percent = diff * 100 / bought_p
-            if percent > 4:
+            if 4 < percent < 10:
                 return True, percent
             else:
                 return False, None
@@ -22,7 +22,7 @@ class DecisionService:
 
         # more expensive than average
         percent = diff * 100 / average_p
-        print(f"percent {percent}")
+        # print(f"percent {percent}")
         if -1 < percent < 40:
             return True, percent
         else:

@@ -84,7 +84,8 @@ class FileAndParseService:
         buy_able_stocks = []
         for symbol in symbols:
             if symbol in bought_stocks:
-                print(f"The {symbol} already bought")
+                #print(f"The {symbol} already bought")
+                pass
             else:
                 buy_able_stocks.append(symbol)
 

@@ -3,6 +3,8 @@ from finance_decision_service.decision_service import DecisionService
 from finance_decision_service.file_and_parse_service import FileAndParseService
 from finance_decision_service.finance_service import YFinanceService
 
+debug = False
+
 
 class HandleStockService:
 
@@ -26,17 +28,20 @@ class HandleStockService:
 
         for stocks, bought_price in bought_prices.items():
             print("---------")
-            current_price = current_prices[stocks]
-            final_decision, percent = self.decision_service.decide_sell_or_not(bought_p=bought_price, current_p=current_price)
-            if final_decision:
-                print(f"SELL {stocks} because You bought {bought_price}, current price is {current_price}")
-                print(f"There is a {percent}% increase")
-                is_sold = self.bank_service.sell_stock(stocks, current_price)
-                print(f"SOLD: {is_sold}")
+            try:
+                current_price = current_prices[stocks]
+                final_decision, percent = self.decision_service.decide_sell_or_not(bought_p=bought_price,
+                                                                                   current_p=current_price)
+                if final_decision:
+                    print(f"SELL {stocks} because You bought {bought_price}, current price is {current_price}")
+                    print(f"There is a {percent}% increase") if debug else False
+                    is_sold = self.bank_service.sell_stock(stocks, current_price)
+                    print(f"SOLD: {is_sold}")
 
-            else:
-                print(f"DO NOT SELL {stocks} because You bought {bought_price}, current price is {current_price}")
-
+                else:
+                    print(f"DO NOT SELL {stocks} because You bought {bought_price}, current price is {current_price}")
+            except Exception as e:
+                print(f"Exception at decision at for symbol :{stocks}")
         print("handle_already_bought_stocks end")
 
     def try_to_buy_new_stock(self):
@@ -51,21 +56,21 @@ class HandleStockService:
             print("---------")
             try:
                 current_price = current_prices[stocks]
-                final_decision, percent = self.decision_service.decide_buy_or_not(average_p=average_price, current_p=current_price)
+                final_decision, percent = self.decision_service.decide_buy_or_not(average_p=average_price,
+                                                                                  current_p=current_price)
 
                 if final_decision:
                     print(
                         f"BUY {stocks} because it's 3 day average price {average_price}, current price is {current_price}")
-                    print(f"There is a {percent}% decrease")
+                    print(f"There is a {percent}% decrease") if debug else False
                     is_bought = self.bank_service.buy_stock(stocks, price=current_price)
                     print(f"BOUGHT: {is_bought}")
 
                 else:
                     print(
                         f"DO NOT BUY {stocks} because it's 3 day average price {average_price},"
-                        f" current price is {current_price}")
+                        f" current price is {current_price}") if debug else False
             except Exception as e:
                 print(f"Exception {e}  fro symbol {stocks}")
 
         print("try_to_buy_new_stock end")
-
