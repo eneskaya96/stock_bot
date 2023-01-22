@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Any, Union
 from datetime import datetime, timedelta
 
 
@@ -19,15 +19,16 @@ class FileAndParseService:
 
         return bought_stocks_symbols
 
-    def read_bought_stock_tickers(self) -> Dict[str, float]:
+    def read_bought_stock_tickers(self) -> Dict[str, List[Union[float, int]]]:
         symbol_price_pair = {}
         lines = self.read_lines(self.bought_stocks_filename)
         for l in lines:
-            symbol, price = l.split('|')
-            symbol_price_pair[symbol] = float(price)
+            symbol, price, count = l.split('|')
+            symbol_price_pair[symbol] = [float(price), int(count)]
 
         return symbol_price_pair
 
+    # used methods
     def get_requests(self) -> List:
         requests = []
         lines = self.read_lines(self.buy_or_sell_requests)
@@ -48,6 +49,7 @@ class FileAndParseService:
 
         return requests
 
+    # used methods
     def delete_line_from_file(self, symbol: str) -> None:
         with open(self.bought_stocks_filename, "r") as f:
             lines = f.readlines()
@@ -59,6 +61,7 @@ class FileAndParseService:
                     f.write(line)
         f.close()
 
+    # used methods
     def adding_line_to_bought_file(self, symbol: str, price: float) -> None:
         line = f"{symbol}.IS|{str(price)}\n"
         with open(self.bought_stocks_filename, "a") as f:

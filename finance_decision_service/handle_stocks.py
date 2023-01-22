@@ -26,7 +26,8 @@ class HandleStockService:
 
         current_prices = self.yfinance_service.get_current_data(symbols, len(symbols))
 
-        for stocks, bought_price in bought_prices.items():
+        for stocks, bought_price_and_count in bought_prices.items():
+            bought_price, count = bought_price_and_count
             print("---------")
             try:
                 current_price = current_prices[stocks]
@@ -35,7 +36,7 @@ class HandleStockService:
                 if final_decision:
                     print(f"SELL {stocks} because You bought {bought_price}, current price is {current_price}")
                     print(f"There is a {percent}% increase") if debug else False
-                    is_sold = self.bank_service.sell_stock(stocks, current_price)
+                    is_sold = self.bank_service.sell_stock(stocks, current_price, count)
                     print(f"SOLD: {is_sold}")
 
                 else:
@@ -53,7 +54,7 @@ class HandleStockService:
         current_prices = self.yfinance_service.get_current_data(symbols, len(symbols))
 
         for stocks, average_price in average_prices.items():
-            print("---------")
+
             try:
                 current_price = current_prices[stocks]
                 final_decision, percent = self.decision_service.decide_buy_or_not(average_p=average_price,
@@ -63,8 +64,9 @@ class HandleStockService:
                     print(
                         f"BUY {stocks} because it's 3 day average price {average_price}, current price is {current_price}")
                     print(f"There is a {percent}% decrease") if debug else False
-                    is_bought = self.bank_service.buy_stock(stocks, price=current_price)
+                    is_bought = self.bank_service.buy_stock(stocks, price=current_price, count=10)
                     print(f"BOUGHT: {is_bought}")
+                    print("---------")
 
                 else:
                     print(
